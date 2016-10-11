@@ -1,0 +1,58 @@
+#include<iostream>
+#include<climits>
+#include<cstring>
+#include<stack>
+#define maxn 100
+using namespace std;
+int main()
+{
+	stack<int>ans;
+	bool visited[maxn]={false};
+	int target,route[maxn][maxn],g[maxn][maxn],dist_min[maxn]={LONG_MAX},i,j,k,m,n,p;
+	cin>>n>>target;
+	memset(dist_min,999999,100*sizeof(int));
+	dist_min[1]=0;
+	for(i=1;i<=n;i++)
+		for(j=1;j<=n;j++)
+		{
+			cin>>g[i][j];
+		}
+	for(i=1;i<=n;i++)
+	{
+		p=999999;
+		for(j=1;j<=n;j++)
+			if(dist_min[j]<p && !visited[j])
+			{
+				k=j;
+				p=dist_min[j];
+			}
+			visited[k]=true;
+			 
+			for(j=1;j<=n;j++)dist_min[j]=min(dist_min[j],dist_min[k]+g[k][j]);
+		
+	}
+ 
+	cout<<dist_min[target]<<endl;
+	ans.push(target);
+	int now=target;
+	while(now!=1)
+    {
+	
+	for(i=1;i<=n;i++)
+	{
+		if(dist_min[i]+g[i][now]==dist_min[now] && i!=now)
+		{
+			ans.push(i);
+			now=i;
+			break;
+		}
+
+	}
+    }
+   
+    while(! ans.empty())
+    {
+    	cout<<ans.top()<<' ';
+    	ans.pop();
+	}
+}
