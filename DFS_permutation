@@ -1,0 +1,30 @@
+//DFS
+#define maxn 9
+#define depth 3
+#include<iostream>
+using namespace std;
+void dfs(int *visited,int *ans,int t)
+{
+	int i,j,k;
+	if(t>depth)
+	{
+		for(i=1;i<=depth;i++)cout<<ans[i]<<' ';
+		cout<<endl;
+		return;
+	}
+	for(i=1;i<=maxn;i++)
+	{
+		if(!visited[i])
+		{
+			visited[i]=1;
+			ans[t]=i;
+			dfs(visited,ans,t+1);
+			visited[i]=0;
+		}
+	}
+}
+int main()
+{
+	int visited0[20]={0},ans0[10]={0};
+	dfs(visited0,ans0,1);
+ } 
