@@ -1,0 +1,74 @@
+//BFS
+#include<iostream>
+#include<queue>
+#include<stack>
+#include<cstring>
+using namespace std;
+struct node
+{
+	int x,y;
+};
+node move[8]={{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}};
+stack<node>ans;
+int main()
+{
+	node pre[100][100];
+	bool a[100][100],visited[100][100];
+	int sizeN,sizeM,i,j,k,tmp,cnt=0;
+	queue<node>q;
+	cin>>sizeN;
+	cin>>sizeM;
+	memset(visited,false,10000*sizeof(bool));
+	visited[1][1]=true;
+	for(i=1;i<=sizeN;i++)
+	{
+		for(j=1;j<=sizeM;j++)
+		{
+		    cnt++;
+			cin>>tmp;
+			a[i][j]=tmp;
+		}
+	}
+	for(i=0;i<=sizeN+1;i++)
+	    for(j=0;j<=sizeM+1;j++)if(i==0 || j==0 ||i==sizeN+1 || j==sizeM+1)a[i][j]=false;
+	    
+	cnt=1;
+	node now;
+	now.x=1;
+	now.y=1;
+	q.push(now);
+	while(!q.empty())
+	{
+		now=q.front();
+		node t;
+		q.pop();
+		for(i=0;i<=7;i++)
+		{
+			if(a[now.x+move[i].x][now.y+move[i].y] && ! visited[now.x+move[i].x][now.y+move[i].y])
+			{
+				visited[now.x+move[i].x][now.y+move[i].y]=true;
+				t.x=now.x+move[i].x;
+				t.y=now.y+move[i].y;
+				q.push(t);
+				pre[t.x][t.y]=now;
+			}
+		}
+	}
+	int x1=sizeN;
+	int y1=sizeM;
+	while(x1!=1 || y1!=1)
+	{
+		int xt=x1,yt=y1;
+		now.x=x1;
+		now.y=y1;
+		ans.push(now);
+		x1=pre[xt][yt].x;
+		y1=pre[xt][yt].y;	
+	} 
+	cout<<"1,1"<<' ';
+	while(!ans.empty())
+	{
+		cout<<ans.top().x<<","<<ans.top().y<<' ';
+		ans.pop();
+	}
+}
